@@ -17,7 +17,7 @@ namespace BlazeJump.Tools.Services.Connections
 		/// <summary>
 		/// Gets or sets the dictionary of active relay connections.
 		/// </summary>
-		public ConcurrentDictionary<string, IRelayConnection> RelayConnections { get; set; } = new ConcurrentDictionary<string, IRelayConnection>();
+		public ConcurrentDictionary<string, IRelayConnection> RelayConnections { get; private set; } = new ConcurrentDictionary<string, IRelayConnection>();
 		
 		/// <summary>
 		/// Gets the list of relay URIs being managed.
@@ -42,8 +42,17 @@ namespace BlazeJump.Tools.Services.Connections
 		/// <param name="connectionProvider">The relay connection provider.</param>
 		public RelayManager(IRelayConnectionProvider connectionProvider)
 		{
-			_connectionProvider = connectionProvider;
-			RelayConnections.TryAdd("wss://relay.nostr.band", _connectionProvider.CreateRelayConnection("wss://relay.nostr.band"));
+			_connectionProvider = connectionProvider;	
+		}
+
+		/// <summary>
+		/// Attempts to add a relay URI to the manager without opening a connection.
+		/// </summary>
+		/// <param name="uri">The relay URI to add.</param>
+		/// <returns>True if the URI was added successfully; false if it already exists.</returns>
+		public bool TryAddUri(string uri)
+		{
+			return RelayConnections.TryAdd(uri, _connectionProvider.CreateRelayConnection(uri));
 		}
 
 		private void AddToQueue(object? sender, MessageReceivedEventArgs e)
