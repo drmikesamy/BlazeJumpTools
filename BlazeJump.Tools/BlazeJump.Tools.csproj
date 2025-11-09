@@ -7,7 +7,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     
     <!-- NuGet Package Properties -->
-    <PackageId>BlazeJump.Tools.Tools</PackageId>
+    <PackageId>BlazeJump.Tools</PackageId>
     <Version>1.0.0</Version>
     <Authors>Michael Samy</Authors>
     <Company>BlazeJump</Company>

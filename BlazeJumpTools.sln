@@ -1,24 +1,28 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.5.2.0
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazeJump.Tools", "BlazeJump.Tools.csproj", "{96AC956C-67F7-BBFE-FFF1-900447FFFAC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazeJump.Tools", "BlazeJump.Tools\BlazeJump.Tools.csproj", "{3DCD1FDA-9DCC-462A-9A22-D5CA9ACD34E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazeJump.Tools.Tests", "BlazeJump.Tools.Tests\BlazeJump.Tools.Tests.csproj", "{F34785C1-F659-4AE6-841D-FFDAAB49370D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{96AC956C-67F7-BBFE-FFF1-900447FFFAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96AC956C-67F7-BBFE-FFF1-900447FFFAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96AC956C-67F7-BBFE-FFF1-900447FFFAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96AC956C-67F7-BBFE-FFF1-900447FFFAC0}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BDE93BDF-F3A3-476E-85E0-50BFDD34757A}
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3DCD1FDA-9DCC-462A-9A22-D5CA9ACD34E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCD1FDA-9DCC-462A-9A22-D5CA9ACD34E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCD1FDA-9DCC-462A-9A22-D5CA9ACD34E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCD1FDA-9DCC-462A-9A22-D5CA9ACD34E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F34785C1-F659-4AE6-841D-FFDAAB49370D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F34785C1-F659-4AE6-841D-FFDAAB49370D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F34785C1-F659-4AE6-841D-FFDAAB49370D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F34785C1-F659-4AE6-841D-FFDAAB49370D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

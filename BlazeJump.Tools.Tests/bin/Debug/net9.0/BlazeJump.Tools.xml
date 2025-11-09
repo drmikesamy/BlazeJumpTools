@@ -1,0 +1,2106 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BlazeJump.Tools</name>
+    </assembly>
+    <members>
+        <member name="T:BlazeJump.Tools.Builders.FilterBuilder">
+            <summary>
+            Builder class for constructing Nostr event filters using a fluent API.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddFilter">
+            <summary>
+            Adds a new filter to the builder.
+            </summary>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddKind(BlazeJump.Tools.Enums.KindEnum)">
+            <summary>
+            Adds an event kind to the current filter.
+            </summary>
+            <param name="kind">The event kind to add.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.WithFromDate(System.DateTime)">
+            <summary>
+            Sets the start date for events in the current filter.
+            </summary>
+            <param name="fromDate">The starting date for the filter.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.WithToDate(System.DateTime)">
+            <summary>
+            Sets the end date for events in the current filter.
+            </summary>
+            <param name="toDate">The ending date for the filter.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.WithLimit(System.Int32)">
+            <summary>
+            Sets the maximum number of events to return.
+            </summary>
+            <param name="limit">The maximum number of events.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddTaggedEventId(System.String)">
+            <summary>
+            Adds a tagged event ID to the current filter.
+            </summary>
+            <param name="taggedEventId">The event ID to add to the tag filter.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddTaggedEventIds(System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds multiple tagged event IDs to the current filter.
+            </summary>
+            <param name="taggedEventIds">The list of event IDs to add to the tag filter.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddTaggedKeywords(System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds multiple tagged keywords to the current filter.
+            </summary>
+            <param name="taggedKeywords">The list of keywords to add to the tag filter.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddTaggedKeyword(System.String)">
+            <summary>
+            Adds a tagged keyword to the current filter.
+            </summary>
+            <param name="taggedKeyword">The keyword to add to the tag filter.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddEventId(System.String)">
+            <summary>
+            Adds an event ID to the current filter.
+            </summary>
+            <param name="eventId">The event ID to filter by.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddEventIds(System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds multiple event IDs to the current filter.
+            </summary>
+            <param name="eventIds">The list of event IDs to filter by.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddAuthor(System.String)">
+            <summary>
+            Adds an author public key to the current filter.
+            </summary>
+            <param name="author">The author public key to filter by.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddAuthors(System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds multiple author public keys to the current filter.
+            </summary>
+            <param name="authors">The list of author public keys to filter by.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.AddSearch(System.String)">
+            <summary>
+            Adds a search query to the current filter.
+            </summary>
+            <param name="query">The search query string.</param>
+            <returns>The current FilterBuilder instance for method chaining.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Builders.FilterBuilder.Build">
+            <summary>
+            Builds and returns the list of filters, applying default date ranges and removing empty filters.
+            </summary>
+            <returns>A list of Filter objects.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.CommonServices">
+            <summary>
+            Provides extension methods for configuring BlazeJump common services.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.CommonServices.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures and registers all BlazeJump common services with the dependency injection container.
+            </summary>
+            <param name="services">The service collection to add services to.</param>
+            <remarks>
+            This method registers the following services as singletons:
+            <list type="bullet">
+            <item><description>IIdentityService - Manages Nostr identities and keys</description></item>
+            <item><description>IMessageService - Handles Nostr event messaging</description></item>
+            <item><description>INotificationService - Manages application notifications</description></item>
+            <item><description>IRelayManager - Manages connections to Nostr relays</description></item>
+            <item><description>IUserProfileService - Handles user profile operations</description></item>
+            <item><description>IMapper - AutoMapper instance for object mapping</description></item>
+            </list>
+            </remarks>
+            <example>
+            <code>
+            builder.Services.ConfigureServices();
+            </code>
+            </example>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.Bech32PrefixEnum">
+            <summary>
+            Bech32 encoding prefix types used in Nostr protocol.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.Bech32PrefixEnum.nprofile">
+            <summary>
+            Profile identifier with metadata.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.Bech32PrefixEnum.nevent">
+            <summary>
+            Event identifier with metadata.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.Bech32PrefixEnum.npub">
+            <summary>
+            Public key identifier.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.Bech32PrefixEnum.nsec">
+            <summary>
+            Secret/private key identifier.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.Bech32PrefixEnum.naddr">
+            <summary>
+            Address identifier.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.KindEnum">
+            <summary>
+            Nostr event kind types as defined in the Nostr protocol specification.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.Metadata">
+            <summary>
+            User metadata event (kind 0).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.Text">
+            <summary>
+            Text note event (kind 1).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.RecommendRelay">
+            <summary>
+            Relay recommendation event (kind 2).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.Contacts">
+            <summary>
+            Contact list event (kind 3).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.EncryptedDirectMessages">
+            <summary>
+            Encrypted direct message event (kind 4).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.EventDeletion">
+            <summary>
+            Event deletion request (kind 5).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.Repost">
+            <summary>
+            Repost event (kind 6).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.Reaction">
+            <summary>
+            Reaction event (kind 7).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.ChannelCreation">
+            <summary>
+            Channel creation event (kind 40).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.ChannelMetadata">
+            <summary>
+            Channel metadata event (kind 41).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.ChannelMessage">
+            <summary>
+            Channel message event (kind 42).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.ChannelHideMessage">
+            <summary>
+            Channel hide message event (kind 43).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.ChannelMuteUser">
+            <summary>
+            Channel mute user event (kind 44).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.PublicChatReserved">
+            <summary>
+            Reserved for public chat events (kind 45).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.ReplaceableEventsReserved">
+            <summary>
+            Reserved for replaceable events (kind 10000).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.RelayListMetadata">
+            <summary>
+            Relay list metadata event (kind 10002).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.EphemeralEventsReserved">
+            <summary>
+            Reserved for ephemeral events (kind 20000).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.NostrConnect">
+            <summary>
+            Nostr Connect protocol event (kind 24133).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.KindEnum.Communities">
+            <summary>
+            Communities event (kind 34550).
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.MessageContextEnum">
+            <summary>
+            Context types for messages in the application.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageContextEnum.Event">
+            <summary>
+            Message in the context of an event.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageContextEnum.User">
+            <summary>
+            Message in the context of a user.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageContextEnum.Reply">
+            <summary>
+            Message that is a reply.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.MessageTypeEnum">
+            <summary>
+            Message types used in Nostr relay communication protocol.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageTypeEnum.Req">
+            <summary>
+            Request message to query events from a relay.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageTypeEnum.Event">
+            <summary>
+            Event message containing a Nostr event.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageTypeEnum.Notice">
+            <summary>
+            Notice message from a relay.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageTypeEnum.Close">
+            <summary>
+            Close message to end a subscription.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageTypeEnum.Ok">
+            <summary>
+            OK message indicating acceptance or rejection of an event.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageTypeEnum.Eose">
+            <summary>
+            End of stored events message.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.MessageTypeEnum.Count">
+            <summary>
+            Count message for event counting queries.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.PageTypeEnum">
+            <summary>
+            Page types used for navigation and routing in the application.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.PageTypeEnum.User">
+            <summary>
+            User profile page.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.PageTypeEnum.Event">
+            <summary>
+            Event detail page.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.PageTypeEnum.UserList">
+            <summary>
+            User list page.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.PlatformEnum">
+            <summary>
+            Platform types that the application can run on.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.PlatformEnum.Web">
+            <summary>
+            Web platform (browser-based).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.PlatformEnum.Ios">
+            <summary>
+            iOS mobile platform.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.PlatformEnum.Android">
+            <summary>
+            Android mobile platform.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.RelationTypeEnum">
+            <summary>
+            Types of relationships between entities in the application (search queries, subscriptions, events, users).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.SearchToSubscriptionId">
+            <summary>
+            Relation mapping a search query to subscription IDs.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.SubscriptionGuidToIds">
+            <summary>
+            Relation mapping a subscription GUID to event IDs.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.RootLevelSubscription">
+            <summary>
+            Relation for root level subscriptions.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.EventChildren">
+            <summary>
+            Relation mapping an event to its child events (replies).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.EventsByUser">
+            <summary>
+            Relation mapping a user to their events.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.UserByEvent">
+            <summary>
+            Relation mapping an event to its author (user).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.EventParent">
+            <summary>
+            Relation mapping an event to its direct parent event.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.EventRoot">
+            <summary>
+            Relation mapping an event to its root event in a thread.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelationTypeEnum.ReferencedEvent">
+            <summary>
+            Relation for referenced events.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.RelayConnectionStatusEnum">
+            <summary>
+            Connection status for relay connections.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelayConnectionStatusEnum.NotConnected">
+            <summary>
+            The relay is not connected.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.RelayConnectionStatusEnum.Connected">
+            <summary>
+            The relay is connected and ready to communicate.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.TagEnum">
+            <summary>
+            Tag types used in Nostr events as defined in the protocol specification.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.e">
+            <summary>
+            Event tag referencing another event.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.p">
+            <summary>
+            Public key tag referencing a user.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.a">
+            <summary>
+            Address tag for replaceable events.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.r">
+            <summary>
+            Reference tag for URLs or other references.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.t">
+            <summary>
+            Topic/hashtag tag.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.g">
+            <summary>
+            Geohash tag for location.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.nonce">
+            <summary>
+            Nonce tag for proof of work.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.subject">
+            <summary>
+            Subject tag for event subject/title.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.d">
+            <summary>
+            Identifier tag for replaceable events.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.expiration">
+            <summary>
+            Expiration timestamp tag.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.q">
+            <summary>
+            Quote tag for quoted events.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.imeta">
+            <summary>
+            Image metadata tag.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TagEnum.proxy">
+            <summary>
+            Proxy tag for external resources.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Enums.TLVTypeEnum">
+            <summary>
+            TLV (Type-Length-Value) types used in Bech32 encoded data.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TLVTypeEnum.Special">
+            <summary>
+            Special purpose TLV type (type 0).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TLVTypeEnum.Relay">
+            <summary>
+            Relay URL TLV type (type 1).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TLVTypeEnum.Author">
+            <summary>
+            Author public key TLV type (type 2).
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Tools.Enums.TLVTypeEnum.Kind">
+            <summary>
+            Event kind TLV type (type 3).
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Helpers.GeneralHelpers">
+            <summary>
+            General utility helper methods for date/time conversions and Bech32 encoding/decoding.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Helpers.GeneralHelpers.UnixTimeStampToDateTime(System.Int64)">
+            <summary>
+            Converts a Unix timestamp to a DateTime object.
+            </summary>
+            <param name="unixTimeStamp">The Unix timestamp in seconds.</param>
+            <returns>A DateTime object representing the timestamp.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Helpers.GeneralHelpers.DateTimeToUnixTimeStamp(System.DateTime)">
+            <summary>
+            Converts a DateTime object to a Unix timestamp.
+            </summary>
+            <param name="dateTime">The DateTime to convert.</param>
+            <returns>The Unix timestamp in seconds.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Helpers.GeneralHelpers.HexToBech32(System.String,BlazeJump.Tools.Enums.Bech32PrefixEnum)">
+            <summary>
+            Converts a hexadecimal string to a Bech32 encoded string.
+            </summary>
+            <param name="hexString">The hexadecimal string to convert.</param>
+            <param name="bechLabel">The Bech32 prefix to use.</param>
+            <returns>A Bech32 encoded string.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Helpers.GeneralHelpers.Bech32ToHex(System.String,BlazeJump.Tools.Enums.Bech32PrefixEnum)">
+            <summary>
+            Converts a Bech32 encoded string to a hexadecimal string.
+            </summary>
+            <param name="bech32string">The Bech32 string to decode.</param>
+            <param name="bechLabel">The expected Bech32 prefix.</param>
+            <returns>A hexadecimal string representation of the decoded data.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Helpers.GeneralHelpers.Bech32ToTLVComponents(System.String,BlazeJump.Tools.Enums.Bech32PrefixEnum)">
+            <summary>
+            Decodes a Bech32 string and extracts TLV (Type-Length-Value) components.
+            </summary>
+            <param name="bech32string">The Bech32 string to decode.</param>
+            <param name="bechLabel">The expected Bech32 prefix.</param>
+            <returns>A dictionary mapping TLV types to their hexadecimal values.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Helpers.QRCode">
+            <summary>
+            Helper class for generating QR codes.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Helpers.QRCode.GenerateQRCode(System.String)">
+            <summary>
+            Generates a QR code image from input data as a Base64 encoded string.
+            </summary>
+            <param name="inputData">The data to encode in the QR code.</param>
+            <returns>A Base64 encoded string representing the QR code bitmap, or null if generation fails.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Mappers.NEventProfile">
+            <summary>
+            AutoMapper profile for mapping between NEvent-related objects.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Mappers.NEventProfile.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Mappers.NEventProfile"/> class and configures mappings.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.Crypto.Secp256k1KeyPair">
+            <summary>
+            Represents a Secp256k1 cryptographic key pair (private and public keys).
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Models.Crypto.Secp256k1KeyPair.#ctor(NBitcoin.Secp256k1.ECPrivKey,NBitcoin.Secp256k1.ECPubKey)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Models.Crypto.Secp256k1KeyPair"/> class.
+            </summary>
+            <param name="privateKey">The private key.</param>
+            <param name="publicKey">The public key.</param>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Crypto.Secp256k1KeyPair.PrivateKey">
+            <summary>
+            Gets the private key.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Crypto.Secp256k1KeyPair.PublicKey">
+            <summary>
+            Gets the public key.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.EventTag">
+            <summary>
+            Represents a tag in a Nostr event with a key and up to 4 values.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.EventTag.Key">
+            <summary>
+            Gets or sets the tag key/type.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.EventTag.Value">
+            <summary>
+            Gets or sets the first tag value.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.EventTag.Value2">
+            <summary>
+            Gets or sets the second tag value (optional).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.EventTag.Value3">
+            <summary>
+            Gets or sets the third tag value (optional).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.EventTag.Value4">
+            <summary>
+            Gets or sets the fourth tag value (optional).
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.Filter">
+            <summary>
+            Represents a Nostr event filter for querying events from relays.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.EventIds">
+            <summary>
+            Gets or sets a list of event IDs to filter by.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.Authors">
+            <summary>
+            Gets or sets a list of author public keys to filter by.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.Kinds">
+            <summary>
+            Gets or sets a list of event kinds to filter by.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.TaggedEventIds">
+            <summary>
+            Gets or sets a list of event IDs referenced in 'e' tags.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.TaggedPublicKeys">
+            <summary>
+            Gets or sets a list of public keys referenced in 'p' tags.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.TaggedKeywords">
+            <summary>
+            Gets or sets a list of keywords referenced in 't' tags.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.Since">
+            <summary>
+            Gets or sets the start timestamp for filtering events (Unix timestamp).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.Until">
+            <summary>
+            Gets or sets the end timestamp for filtering events (Unix timestamp).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.Limit">
+            <summary>
+            Gets or sets the maximum number of events to return.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.Filter.Search">
+            <summary>
+            Gets or sets a search query string for full-text search.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.MenuItem">
+            <summary>
+            Represents a menu item with title, description, and navigation link information.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.MenuItem.Title">
+            <summary>
+            Gets or sets the menu item title.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.MenuItem.Description">
+            <summary>
+            Gets or sets the menu item description.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.MenuItem.LinkUri">
+            <summary>
+            Gets or sets the external link URI.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.MenuItem.LinkRoute">
+            <summary>
+            Gets or sets the internal route path.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.NEvent">
+            <summary>
+            Represents a Nostr event with all standard fields and computed properties.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Id">
+            <summary>
+            Gets or sets the event ID (32-byte hex-encoded hash).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Pubkey">
+            <summary>
+            Gets or sets the author's public key (32-byte hex-encoded).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Created_At">
+            <summary>
+            Gets or sets the creation timestamp (Unix time in seconds).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Kind">
+            <summary>
+            Gets or sets the event kind.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Tags">
+            <summary>
+            Gets or sets the list of tags attached to this event.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Content">
+            <summary>
+            Gets or sets the event content (arbitrary string).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Sig">
+            <summary>
+            Gets or sets the event signature (64-byte hex-encoded).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.User">
+            <summary>
+            Gets or sets the user/author information (not serialized).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.CreatedAtDateTime">
+            <summary>
+            Gets the created timestamp as a local DateTime.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.RootId">
+            <summary>
+            Gets the root event ID from tags (if this is a reply in a thread).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.ParentId">
+            <summary>
+            Gets the parent event ID from tags (if this is a direct reply).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NEvent.Verified">
+            <summary>
+            Gets or sets whether the event signature has been verified.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.NMessage">
+            <summary>
+            Represents a Nostr relay protocol message that can be sent or received.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NMessage.MessageType">
+            <summary>
+            Gets or sets the type of relay message.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NMessage.SubscriptionId">
+            <summary>
+            Gets or sets the subscription ID (for REQ, EVENT, EOSE, CLOSE messages).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NMessage.Event">
+            <summary>
+            Gets or sets the event data (for EVENT messages).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NMessage.Filter">
+            <summary>
+            Gets or sets the filter data (for REQ messages).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NMessage.NoticeMessage">
+            <summary>
+            Gets or sets the notice message text (for NOTICE messages).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NMessage.Success">
+            <summary>
+            Gets or sets whether the operation was successful (for OK messages).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NMessage.NEventId">
+            <summary>
+            Gets or sets the event ID being acknowledged (for OK messages).
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.NostrConnect.NostrConnectRequest">
+            <summary>
+            Represents a Nostr Connect protocol request message.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NostrConnect.NostrConnectRequest.Id">
+            <summary>
+            Gets or sets the request ID.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NostrConnect.NostrConnectRequest.Method">
+            <summary>
+            Gets or sets the method name being requested.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NostrConnect.NostrConnectRequest.Params">
+            <summary>
+            Gets or sets the list of parameters for the method.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.NostrConnect.NostrConnectResponse">
+            <summary>
+            Represents a Nostr Connect protocol response message.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NostrConnect.NostrConnectResponse.Id">
+            <summary>
+            Gets or sets the response ID (matches the request ID).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NostrConnect.NostrConnectResponse.Result">
+            <summary>
+            Gets or sets the result data (on success).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.NostrConnect.NostrConnectResponse.Error">
+            <summary>
+            Gets or sets the error message (if the request failed).
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.SignableNEvent">
+            <summary>
+            Represents a Nostr event that can be signed (before computing the ID and signature).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.SignableNEvent.Id">
+            <summary>
+            Gets the event ID placeholder (always 0 for signing purposes).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.SignableNEvent.Pubkey">
+            <summary>
+            Gets or sets the author's public key.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.SignableNEvent.Created_At">
+            <summary>
+            Gets or sets the creation timestamp.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.SignableNEvent.Kind">
+            <summary>
+            Gets or sets the event kind.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.SignableNEvent.Tags">
+            <summary>
+            Gets or sets the list of tags.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.SignableNEvent.Content">
+            <summary>
+            Gets or sets the event content.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Models.User">
+            <summary>
+            Represents a Nostr user with profile information and associated events.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.Id">
+            <summary>
+            Gets or sets the user's unique identifier (public key).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.Username">
+            <summary>
+            Gets or sets the user's display name.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.Bio">
+            <summary>
+            Gets or sets the user's biography/about text.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.Email">
+            <summary>
+            Gets or sets the user's email address (not published to Nostr).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.Password">
+            <summary>
+            Gets or sets the user's password (not published to Nostr).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.RepeatPassword">
+            <summary>
+            Gets or sets the password confirmation field (not published to Nostr).
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.ProfilePic">
+            <summary>
+            Gets or sets the user's profile picture URL.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.Banner">
+            <summary>
+            Gets or sets the user's banner/header image URL.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Models.User.Events">
+            <summary>
+            Gets or sets the collection of events authored by this user.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.Events.MessageReceivedEventArgs">
+            <summary>
+            Event arguments for when a message is received from a relay.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.Events.MessageReceivedEventArgs.#ctor(System.String,BlazeJump.Tools.Models.NMessage)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Connections.Events.MessageReceivedEventArgs"/> class.
+            </summary>
+            <param name="url">The relay URL that sent the message.</param>
+            <param name="message">The received message.</param>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.Events.MessageReceivedEventArgs.Url">
+            <summary>
+            Gets or sets the relay URL that sent the message.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.Events.MessageReceivedEventArgs.Message">
+            <summary>
+            Gets or sets the received message.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.Factories.ClientWebSocketFactory">
+            <summary>
+            Factory implementation for creating ClientWebSocket wrapper instances.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.Factories.ClientWebSocketFactory.Create">
+            <summary>
+            Creates a new instance of IClientWebSocketWrapper.
+            </summary>
+            <returns>A new IClientWebSocketWrapper instance.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.Factories.IClientWebSocketFactory">
+            <summary>
+            Factory interface for creating ClientWebSocket wrapper instances.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.Factories.IClientWebSocketFactory.Create">
+            <summary>
+            Creates a new instance of IClientWebSocketWrapper.
+            </summary>
+            <returns>A new IClientWebSocketWrapper instance.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.IRelayConnection">
+            <summary>
+            Interface for managing a connection to a single Nostr relay.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.IRelayConnection.IsOpen">
+            <summary>
+            Gets a value indicating whether the relay connection is open.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.IRelayConnection.ActiveSubscriptions">
+            <summary>
+            Gets or sets the dictionary of active subscriptions (subscription ID to active status).
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Connections.IRelayConnection.NewMessageReceived">
+            <summary>
+            Event raised when a new message is received from the relay.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayConnection.Init">
+            <summary>
+            Initializes and opens the connection to the relay.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayConnection.SubscribeAsync(BlazeJump.Tools.Enums.MessageTypeEnum,System.String,System.Collections.Generic.List{BlazeJump.Tools.Models.Filter})">
+            <summary>
+            Subscribes to events from the relay with the specified filters.
+            </summary>
+            <param name="requestMessageType">The type of request message.</param>
+            <param name="subscriptionId">The unique subscription identifier.</param>
+            <param name="filters">The list of filters for the subscription.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayConnection.SendNEvent(System.String,System.String)">
+            <summary>
+            Sends a Nostr event to the relay.
+            </summary>
+            <param name="serialisedNMessage">The serialized Nostr message.</param>
+            <param name="subscriptionId">The subscription identifier.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayConnection.Close">
+            <summary>
+            Closes the connection to the relay.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.IRelayManager">
+            <summary>
+            Interface for managing connections to multiple Nostr relays.
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Connections.IRelayManager.ProcessMessageQueue">
+            <summary>
+            Event raised when messages need to be processed from the queue.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.IRelayManager.ReceivedMessages">
+            <summary>
+            Gets or sets the queue of received messages from all relays.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.IRelayManager.Relays">
+            <summary>
+            Gets the list of relay URIs being managed.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.IRelayManager.RelayConnections">
+            <summary>
+            Gets or sets the dictionary of active relay connections.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayManager.OpenConnection(System.String)">
+            <summary>
+            Opens a connection to a relay.
+            </summary>
+            <param name="uri">The relay URI.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayManager.CloseConnection(System.String)">
+            <summary>
+            Closes a connection to a relay.
+            </summary>
+            <param name="uri">The relay URI.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayManager.QueryRelays(System.String,BlazeJump.Tools.Enums.MessageTypeEnum,System.Collections.Generic.List{BlazeJump.Tools.Models.Filter},System.Int32)">
+            <summary>
+            Queries multiple relays with filters.
+            </summary>
+            <param name="subscriptionId">The subscription identifier.</param>
+            <param name="requestMessageType">The type of request message.</param>
+            <param name="filters">The list of filters.</param>
+            <param name="timeout">The timeout in milliseconds (default 15000).</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.IRelayManager.SendNEvent(BlazeJump.Tools.Models.NEvent,System.String)">
+            <summary>
+            Sends a Nostr event to all connected relays.
+            </summary>
+            <param name="nEvent">The Nostr event to send.</param>
+            <param name="subscriptionHash">The subscription hash.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.Providers.IRelayConnectionProvider">
+            <summary>
+            Provider interface for creating relay connection instances.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.Providers.IRelayConnectionProvider.CreateRelayConnection(System.String)">
+            <summary>
+            Creates a new relay connection for the specified URI.
+            </summary>
+            <param name="uri">The URI of the relay server.</param>
+            <returns>A new IRelayConnection instance.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.Providers.RelayConnectionProvider">
+            <summary>
+            Provider implementation for creating relay connection instances.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.Providers.RelayConnectionProvider.CreateRelayConnection(System.String)">
+            <summary>
+            Creates a new relay connection for the specified URI.
+            </summary>
+            <param name="uri">The URI of the relay server.</param>
+            <returns>A new IRelayConnection instance.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.RelayConnection">
+            <summary>
+            Manages a WebSocket connection to a single Nostr relay.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.RelayConnection.ActiveSubscriptions">
+            <summary>
+            Gets or sets the dictionary of active subscriptions.
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Connections.RelayConnection.NewMessageReceived">
+            <summary>
+            Event raised when a new message is received from the relay.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.RelayConnection.IsOpen">
+            <summary>
+            Gets a value indicating whether the connection is open.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayConnection.#ctor(BlazeJump.Tools.Services.Connections.Factories.IClientWebSocketFactory,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Connections.RelayConnection"/> class.
+            </summary>
+            <param name="webSocketFactory">The WebSocket factory.</param>
+            <param name="uri">The relay URI.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayConnection.Init">
+            <summary>
+            Initializes and opens the connection to the relay.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayConnection.SubscribeAsync(BlazeJump.Tools.Enums.MessageTypeEnum,System.String,System.Collections.Generic.List{BlazeJump.Tools.Models.Filter})">
+            <summary>
+            Subscribes to events from the relay with the specified filters.
+            </summary>
+            <param name="requestMessageType">The type of request message.</param>
+            <param name="subscriptionId">The unique subscription identifier.</param>
+            <param name="filters">The list of filters for the subscription.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayConnection.SendNEvent(System.String,System.String)">
+            <summary>
+            Sends a Nostr event to the relay.
+            </summary>
+            <param name="serialisedNMessage">The serialized Nostr message.</param>
+            <param name="subscriptionId">The subscription identifier.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayConnection.Close">
+            <summary>
+            Closes the connection to the relay.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Connections.RelayManager">
+            <summary>
+            Manages connections to multiple Nostr relays and coordinates message distribution.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.RelayManager.RelayConnections">
+            <summary>
+            Gets or sets the dictionary of active relay connections.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.RelayManager.Relays">
+            <summary>
+            Gets the list of relay URIs being managed.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Connections.RelayManager.ReceivedMessages">
+            <summary>
+            Gets or sets the queue of received messages from all relays.
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Connections.RelayManager.ProcessMessageQueue">
+            <summary>
+            Event raised when messages need to be processed from the queue.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayManager.#ctor(BlazeJump.Tools.Services.Connections.Providers.IRelayConnectionProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Connections.RelayManager"/> class.
+            </summary>
+            <param name="connectionProvider">The relay connection provider.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayManager.OpenConnection(System.String)">
+            <summary>
+            Opens a connection to a relay.
+            </summary>
+            <param name="uri">The relay URI.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayManager.CloseConnection(System.String)">
+            <summary>
+            Closes a connection to a relay.
+            </summary>
+            <param name="uri">The relay URI.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayManager.QueryRelays(System.String,BlazeJump.Tools.Enums.MessageTypeEnum,System.Collections.Generic.List{BlazeJump.Tools.Models.Filter},System.Int32)">
+            <summary>
+            Queries multiple relays with filters.
+            </summary>
+            <param name="subscriptionId">The subscription identifier.</param>
+            <param name="requestMessageType">The type of request message.</param>
+            <param name="filters">The list of filters.</param>
+            <param name="timeout">The timeout in milliseconds.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Connections.RelayManager.SendNEvent(BlazeJump.Tools.Models.NEvent,System.String)">
+            <summary>
+            Sends a Nostr event to all relays.
+            </summary>
+            <param name="nEvent">The Nostr event to send.</param>
+            <param name="subscriptionHash">The subscription hash.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Crypto.BrowserCrypto">
+            <summary>
+            Implements browser-based cryptographic operations through JavaScript interop.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.BrowserCrypto.#ctor(Microsoft.JSInterop.IJSRuntime)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Crypto.BrowserCrypto"/> class.
+            </summary>
+            <param name="jsRuntime">The JavaScript runtime for interop.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.BrowserCrypto.InvokeBrowserCrypto(System.String,System.Object[])">
+            <summary>
+            Invokes a browser crypto function via JavaScript interop.
+            </summary>
+            <param name="functionName">The name of the crypto function to invoke.</param>
+            <param name="args">The arguments to pass to the function.</param>
+            <returns>The result from the browser crypto operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Crypto.CryptoService">
+            <summary>
+            Implements cryptographic operations for Nostr protocol using Secp256k1 and AES encryption.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Crypto.CryptoService.EtherealPublicKey">
+            <summary>
+            Gets the ethereal public key used for temporary encryption.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Crypto.CryptoService._etherealKeyPair">
+            <summary>
+            Gets or sets the ethereal key pair.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.#ctor(BlazeJump.Tools.Services.Crypto.IBrowserCrypto)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Crypto.CryptoService"/> class.
+            </summary>
+            <param name="browserCrypto">The browser crypto service for AES operations.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.CreateEtherealKeyPair">
+            <summary>
+            Creates a new ethereal key pair for temporary encryption.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.GetNewSecp256k1KeyPair">
+            <summary>
+            Generates a new Secp256k1 key pair.
+            </summary>
+            <returns>A new Secp256k1 key pair.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.AesEncrypt(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Encrypts plain text using AES encryption with the provided public key.
+            </summary>
+            <param name="plainText">The text to encrypt.</param>
+            <param name="theirPublicKey">The recipient's public key.</param>
+            <param name="ivOverride">Optional initialization vector override.</param>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The encrypted cipher text and IV.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.AesDecrypt(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Decrypts base64 cipher text using AES decryption.
+            </summary>
+            <param name="base64CipherText">The base64-encoded cipher text.</param>
+            <param name="theirPublicKey">The sender's public key.</param>
+            <param name="ivString">The initialization vector.</param>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The decrypted plain text.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.GetSharedSecret(System.String,System.Boolean)">
+            <summary>
+            Gets the shared secret for ECDH key exchange.
+            </summary>
+            <param name="theirPublicKey">The other party's public key.</param>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The shared secret bytes.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.GetPrivateKey(System.Boolean)">
+            <summary>
+            Gets the private key for cryptographic operations.
+            </summary>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The private key.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.Sign(System.String,System.Boolean)">
+            <summary>
+            Signs a message using Schnorr signature.
+            </summary>
+            <param name="message">The message to sign.</param>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The signature as a hex string.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CryptoService.Verify(System.String,System.String,System.String)">
+            <summary>
+            Verifies a Schnorr signature.
+            </summary>
+            <param name="signature">The signature to verify.</param>
+            <param name="message">The signed message.</param>
+            <param name="publicKey">The signer's public key.</param>
+            <returns>True if the signature is valid; otherwise, false.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Crypto.CipherIv">
+            <summary>
+            Represents encrypted cipher text with its initialization vector.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.CipherIv.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Crypto.CipherIv"/> class.
+            </summary>
+            <param name="cipherText">The encrypted cipher text.</param>
+            <param name="iv">The initialization vector.</param>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Crypto.CipherIv.CipherText">
+            <summary>
+            Gets or sets the encrypted cipher text.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Crypto.CipherIv.Iv">
+            <summary>
+            Gets or sets the initialization vector.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Crypto.IBrowserCrypto">
+            <summary>
+            Provides browser-based cryptographic operations through JavaScript interop.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.IBrowserCrypto.InvokeBrowserCrypto(System.String,System.Object[])">
+            <summary>
+            Invokes a browser crypto function via JavaScript interop.
+            </summary>
+            <param name="functionName">The name of the crypto function to invoke.</param>
+            <param name="args">The arguments to pass to the function.</param>
+            <returns>The result from the browser crypto operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Crypto.ICryptoService">
+            <summary>
+            Provides cryptographic operations for Nostr protocol.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Crypto.ICryptoService.EtherealPublicKey">
+            <summary>
+            Gets the ethereal public key used for temporary encryption.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.ICryptoService.CreateEtherealKeyPair">
+            <summary>
+            Creates a new ethereal key pair for temporary encryption.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.ICryptoService.GetNewSecp256k1KeyPair">
+            <summary>
+            Generates a new Secp256k1 key pair.
+            </summary>
+            <returns>A new Secp256k1 key pair.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.ICryptoService.AesEncrypt(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Encrypts plain text using AES encryption with the provided public key.
+            </summary>
+            <param name="plainText">The text to encrypt.</param>
+            <param name="theirPublicKey">The recipient's public key.</param>
+            <param name="ivOverride">Optional initialization vector override.</param>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The encrypted cipher text and IV.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.ICryptoService.AesDecrypt(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Decrypts base64 cipher text using AES decryption.
+            </summary>
+            <param name="base64CipherText">The base64-encoded cipher text.</param>
+            <param name="theirPublicKey">The sender's public key.</param>
+            <param name="ivString">The initialization vector.</param>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The decrypted plain text.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.ICryptoService.Sign(System.String,System.Boolean)">
+            <summary>
+            Signs a message using Schnorr signature.
+            </summary>
+            <param name="message">The message to sign.</param>
+            <param name="ethereal">Whether to use the ethereal key pair.</param>
+            <returns>The signature as a hex string.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Crypto.ICryptoService.Verify(System.String,System.String,System.String)">
+            <summary>
+            Verifies a Schnorr signature.
+            </summary>
+            <param name="signature">The signature to verify.</param>
+            <param name="message">The signed message.</param>
+            <param name="publicKey">The signer's public key.</param>
+            <returns>True if the signature is valid; otherwise, false.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Identity.IdentityService">
+            <summary>
+            Implements identity services for Nostr Connect authentication.
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Identity.IdentityService.QrConnectReceived">
+            <summary>
+            Occurs when a QR connect request is received.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Identity.IdentityService.Platform">
+            <summary>
+            Gets or sets the current platform.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Identity.IdentityService.#ctor(BlazeJump.Tools.Services.Connections.IRelayManager,BlazeJump.Tools.Services.Message.IMessageService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Identity.IdentityService"/> class.
+            </summary>
+            <param name="relayManager">The relay manager for connection handling.</param>
+            <param name="messageService">The message service for event handling.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Identity.IdentityService.OnQrConnectReceived(BlazeJump.Tools.Services.Identity.QrConnectEventArgs)">
+            <summary>
+            Raises the QR connect received event.
+            </summary>
+            <param name="e">The event arguments containing connection details.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Identity.IdentityService.FetchLoginScanResponse(BlazeJump.Tools.Services.Identity.QrConnectEventArgs)">
+            <summary>
+            Fetches the login scan response from relays.
+            </summary>
+            <param name="payload">The QR connect payload.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Identity.QrConnectEventArgs">
+            <summary>
+            Event arguments for QR connect authentication.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Identity.QrConnectEventArgs.Relay">
+            <summary>
+            Gets or sets the relay URL.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Identity.QrConnectEventArgs.Pubkey">
+            <summary>
+            Gets or sets the public key for authentication.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Identity.QrConnectEventArgs.Secret">
+            <summary>
+            Gets or sets the secret for authentication.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Identity.IIdentityService">
+            <summary>
+            Provides identity services for Nostr Connect authentication.
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Identity.IIdentityService.QrConnectReceived">
+            <summary>
+            Occurs when a QR connect request is received.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Identity.IIdentityService.OnQrConnectReceived(BlazeJump.Tools.Services.Identity.QrConnectEventArgs)">
+            <summary>
+            Raises the QR connect received event.
+            </summary>
+            <param name="e">The event arguments containing connection details.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Identity.IIdentityService.FetchLoginScanResponse(BlazeJump.Tools.Services.Identity.QrConnectEventArgs)">
+            <summary>
+            Fetches the login scan response from relays.
+            </summary>
+            <param name="payload">The QR connect payload.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Identity.IIdentityService.Platform">
+            <summary>
+            Gets or sets the current platform.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Message.IMessageService">
+            <summary>
+            Provides message services for fetching, verifying, and sending Nostr events.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.IMessageService.LookupUser(System.String)">
+            <summary>
+            Looks up a user by search string.
+            </summary>
+            <param name="searchString">The search string (npub, hex, or name).</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.IMessageService.FetchPage(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Fetches a page of events for a user.
+            </summary>
+            <param name="hex">The user's hex public key.</param>
+            <param name="untilMarker">Optional timestamp to fetch events until.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Message.IMessageService.RelationRegister">
+            <summary>
+            Gets or sets the relation register for tracking user relationships.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Message.IMessageService.MessageStore">
+            <summary>
+            Gets or sets the message store for caching events.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.IMessageService.Fetch(System.Collections.Generic.List{BlazeJump.Tools.Models.Filter},System.String,System.Nullable{BlazeJump.Tools.Enums.MessageTypeEnum})">
+            <summary>
+            Fetches events matching the specified filters.
+            </summary>
+            <param name="filters">The list of filters to apply.</param>
+            <param name="subscriptionId">Optional subscription identifier.</param>
+            <param name="messageType">Optional message type.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.IMessageService.Verify(BlazeJump.Tools.Models.NEvent)">
+            <summary>
+            Verifies a Nostr event's signature.
+            </summary>
+            <param name="nEvent">The event to verify.</param>
+            <returns>True if the signature is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.IMessageService.Send(BlazeJump.Tools.Enums.KindEnum,BlazeJump.Tools.Models.NEvent,System.String)">
+            <summary>
+            Sends a Nostr event to relays.
+            </summary>
+            <param name="kind">The event kind.</param>
+            <param name="nEvent">The event to send.</param>
+            <param name="encryptPubKey">Optional public key for encryption.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.IMessageService.CreateNEvent(BlazeJump.Tools.Enums.KindEnum,System.String,System.String,System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Creates a new Nostr event.
+            </summary>
+            <param name="kind">The event kind.</param>
+            <param name="message">The event message content.</param>
+            <param name="parentId">Optional parent event ID.</param>
+            <param name="rootId">Optional root event ID.</param>
+            <param name="ptags">Optional list of public key tags.</param>
+            <returns>The created Nostr event.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Message.MessageService">
+            <summary>
+            Implements message services for fetching, verifying, and sending Nostr events.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Message.MessageService.MessageStore">
+            <summary>
+            Gets or sets the message store for caching events.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Message.MessageService.RelationRegister">
+            <summary>
+            Gets or sets the relation register for tracking user relationships.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Message.MessageService.EventsAwaitingMetaData">
+            <summary>
+            Gets or sets the queue of events awaiting metadata.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.MessageService.#ctor(BlazeJump.Tools.Services.Connections.IRelayManager,BlazeJump.Tools.Services.Crypto.ICryptoService,BlazeJump.Tools.Services.UserProfile.IUserProfileService,BlazeJump.Tools.Services.Notification.INotificationService,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.Message.MessageService"/> class.
+            </summary>
+            <param name="relayManager">The relay manager for connection handling.</param>
+            <param name="cryptoService">The crypto service for encryption and signing.</param>
+            <param name="userProfileService">The user profile service.</param>
+            <param name="notificationService">The notification service.</param>
+            <param name="mapper">The AutoMapper instance.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.MessageService.LookupUser(System.String)">
+            <summary>
+            Looks up a user by search string.
+            </summary>
+            <param name="searchString">The search string (npub, hex, or name).</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.MessageService.FetchPage(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Fetches a page of events for a user.
+            </summary>
+            <param name="hex">The user's hex public key.</param>
+            <param name="untilMarker">Optional timestamp to fetch events until.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.MessageService.Fetch(System.Collections.Generic.List{BlazeJump.Tools.Models.Filter},System.String,System.Nullable{BlazeJump.Tools.Enums.MessageTypeEnum})">
+            <summary>
+            Fetches events matching the specified filters.
+            </summary>
+            <param name="filters">The list of filters to apply.</param>
+            <param name="subscriptionId">Optional subscription identifier.</param>
+            <param name="messageType">Optional message type.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.MessageService.Verify(BlazeJump.Tools.Models.NEvent)">
+            <summary>
+            Verifies a Nostr event's signature.
+            </summary>
+            <param name="nEvent">The event to verify.</param>
+            <returns>True if the signature is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.MessageService.Send(BlazeJump.Tools.Enums.KindEnum,BlazeJump.Tools.Models.NEvent,System.String)">
+            <summary>
+            Sends a Nostr event to relays.
+            </summary>
+            <param name="kind">The event kind.</param>
+            <param name="nEvent">The event to send.</param>
+            <param name="encryptPubKey">Optional public key for encryption.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.MessageService.CreateNEvent(BlazeJump.Tools.Enums.KindEnum,System.String,System.String,System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Creates a new Nostr event.
+            </summary>
+            <param name="kind">The event kind.</param>
+            <param name="message">The event message content.</param>
+            <param name="parentId">Optional parent event ID.</param>
+            <param name="rootId">Optional root event ID.</param>
+            <param name="ptags">Optional list of public key tags.</param>
+            <returns>The created Nostr event.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Message.RelationRegister">
+            <summary>
+            Manages relationships between Nostr events and users.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Message.RelationRegister.Relationships">
+            <summary>
+            Gets or sets the relationships dictionary.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.RelationRegister.AddRelation(System.String,BlazeJump.Tools.Enums.RelationTypeEnum,System.String)">
+            <summary>
+            Adds a relationship between a parent and child event.
+            </summary>
+            <param name="parentEventId">The parent event ID.</param>
+            <param name="relationType">The type of relationship.</param>
+            <param name="childEventId">The child event ID.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.RelationRegister.TryGetRelation(System.String,BlazeJump.Tools.Enums.RelationTypeEnum,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            Tries to get related child events for a parent event.
+            </summary>
+            <param name="parentEventId">The parent event ID.</param>
+            <param name="relationType">The type of relationship.</param>
+            <param name="childEventIds">The list of child event IDs.</param>
+            <returns>True if relationships exist; otherwise, false.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.RelationRegister.TryGetRelations(System.Collections.Generic.List{System.String},BlazeJump.Tools.Enums.RelationTypeEnum,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            Tries to get related child events for multiple parent events.
+            </summary>
+            <param name="parentEventIds">The list of parent event IDs.</param>
+            <param name="relationType">The type of relationship.</param>
+            <param name="childEventIds">The combined list of child event IDs.</param>
+            <returns>True if any relationships exist; otherwise, false.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.RelationRegister.RelationExists(System.String,BlazeJump.Tools.Enums.RelationTypeEnum)">
+            <summary>
+            Checks if a relationship exists for a parent event.
+            </summary>
+            <param name="parentEventId">The parent event ID.</param>
+            <param name="relationType">The type of relationship.</param>
+            <returns>True if the relationship exists; otherwise, false.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Message.RelationRegister.GetAll">
+            <summary>
+            Gets all relationships.
+            </summary>
+            <returns>The complete relationships dictionary.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Notification.INotificationService">
+            <summary>
+            Provides notification services for UI state updates.
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Notification.INotificationService.UpdateState">
+            <summary>
+            Occurs when the state needs to be updated.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Notification.INotificationService.Loading">
+            <summary>
+            Gets or sets a value indicating whether the application is loading.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Notification.INotificationService.UpdateTheState">
+            <summary>
+            Triggers a state update notification.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.Notification.NotificationService">
+            <summary>
+            Implements notification services for UI state updates.
+            </summary>
+        </member>
+        <member name="E:BlazeJump.Tools.Services.Notification.NotificationService.UpdateState">
+            <summary>
+            Occurs when the state needs to be updated.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.Notification.NotificationService.Loading">
+            <summary>
+            Gets or sets a value indicating whether the application is loading.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.Notification.NotificationService.UpdateTheState">
+            <summary>
+            Triggers a state update notification.
+            </summary>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.UserProfile.IUserProfileService">
+            <summary>
+            Provides user profile management services.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.IUserProfileService.User">
+            <summary>
+            Gets or sets the current user.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.IUserProfileService.UserList">
+            <summary>
+            Gets or sets the dictionary of users.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.IUserProfileService.NPubKey">
+            <summary>
+            Gets or sets the current user's Nostr public key.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.IUserProfileService.IsLoggedIn">
+            <summary>
+            Gets or sets a value indicating whether the user is logged in.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.IUserProfileService.Init">
+            <summary>
+            Initializes the user profile service.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.IUserProfileService.ChangeProfilePicture(System.String)">
+            <summary>
+            Changes the user's profile picture.
+            </summary>
+            <param name="imageUrl">The new profile picture URL.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.IUserProfileService.Login">
+            <summary>
+            Logs in the user.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.IUserProfileService.Logout">
+            <summary>
+            Logs out the user.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.IUserProfileService.Register">
+            <summary>
+            Registers a new user.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Tools.Services.UserProfile.UserProfileService">
+            <summary>
+            Implements user profile management services.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.UserProfileService.#ctor(BlazeJump.Tools.Services.Crypto.ICryptoService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlazeJump.Tools.Services.UserProfile.UserProfileService"/> class.
+            </summary>
+            <param name="cryptoService">The crypto service for key management.</param>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.UserProfileService.User">
+            <summary>
+            Gets or sets the current user.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.UserProfileService.IsLoggedIn">
+            <summary>
+            Gets or sets a value indicating whether the user is logged in.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.UserProfileService.UserList">
+            <summary>
+            Gets or sets the dictionary of users.
+            </summary>
+        </member>
+        <member name="P:BlazeJump.Tools.Services.UserProfile.UserProfileService.NPubKey">
+            <summary>
+            Gets or sets the current user's Nostr public key.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.UserProfileService.Init">
+            <summary>
+            Initializes the user profile service.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.UserProfileService.ChangeProfilePicture(System.String)">
+            <summary>
+            Changes the user's profile picture.
+            </summary>
+            <param name="imageUrl">The new profile picture URL.</param>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.UserProfileService.Login">
+            <summary>
+            Logs in the user.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.UserProfileService.Logout">
+            <summary>
+            Logs out the user.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:BlazeJump.Tools.Services.UserProfile.UserProfileService.Register">
+            <summary>
+            Registers a new user.
+            </summary>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:BlazeJump.Helpers.ExtensionMethods">
+            <summary>
+            Extension methods for common operations including cloning, hashing, and padding.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Helpers.ExtensionMethods.Clone``1(``0)">
+            <summary>
+            Creates a deep clone of an object using JSON serialization.
+            </summary>
+            <typeparam name="T">The type of object to clone.</typeparam>
+            <param name="source">The source object to clone.</param>
+            <returns>A deep copy of the source object.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ExtensionMethods.ToHashString(System.Byte[])">
+            <summary>
+            Converts a byte array to a hexadecimal string.
+            </summary>
+            <param name="inputBytes">The byte array to convert.</param>
+            <returns>A lowercase hexadecimal string representation.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ExtensionMethods.SHA256Hash(System.String)">
+            <summary>
+            Computes the SHA256 hash of a string.
+            </summary>
+            <param name="inputString">The string to hash.</param>
+            <returns>A byte array containing the SHA256 hash.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ExtensionMethods.Pad(System.Byte[])">
+            <summary>
+            Pads a byte array using PKCS7 padding to a multiple of 16 bytes.
+            </summary>
+            <param name="data">The data to pad.</param>
+            <returns>The padded byte array.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ExtensionMethods.Unpad(System.Byte[])">
+            <summary>
+            Removes PKCS7 padding from a byte array.
+            </summary>
+            <param name="data">The padded data.</param>
+            <returns>The unpadded byte array.</returns>
+        </member>
+        <member name="T:BlazeJump.Helpers.ParseEmbeds">
+            <summary>
+            Helper class for parsing and converting embedded content (URLs, videos, Nostr references) in text.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Helpers.ParseEmbeds.youtubeUrlPattern">
+            <summary>
+            Regular expression pattern for matching YouTube URLs.
+            </summary>
+        </member>
+        <member name="F:BlazeJump.Helpers.ParseEmbeds.vimeoUrlPattern">
+            <summary>
+            Regular expression pattern for matching Vimeo URLs.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Helpers.ParseEmbeds.ParseInlineEmbeds(System.String)">
+            <summary>
+            Parses inline content and converts URLs to HTML links, removing Nostr references.
+            </summary>
+            <param name="content">The content to parse.</param>
+            <returns>A MarkupString with embedded content converted to HTML.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ParseEmbeds.ParsePreviewContent(System.String)">
+            <summary>
+            Parses content to extract video URLs and convert them to embed markup.
+            </summary>
+            <param name="content">The content to parse for video URLs.</param>
+            <returns>A list of MarkupStrings containing video embed HTML.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ParseEmbeds.ParseVideoUrl(System.String)">
+            <summary>
+            Converts a video URL to an embed iframe HTML element.
+            </summary>
+            <param name="input">The video URL to convert.</param>
+            <returns>A MarkupString containing the video embed HTML.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ParseEmbeds.ParseEmbeddedStrings(System.String)">
+            <summary>
+            Parses Nostr embedded strings (nevent, nprofile) from text content.
+            </summary>
+            <param name="input">The content to parse for Nostr references.</param>
+            <returns>A dictionary mapping Nostr reference types to lists of reference strings.</returns>
+        </member>
+        <member name="M:BlazeJump.Helpers.ParseEmbeds.StringAsMarkup(System.String)">
+            <summary>
+            Converts a plain string to a MarkupString.
+            </summary>
+            <param name="text">The text to convert.</param>
+            <returns>A MarkupString representation of the text.</returns>
+        </member>
+        <member name="T:BlazeJump.Helpers.TimeAgo">
+            <summary>
+            Utility class for converting DateTime values to human-readable "time ago" strings.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Helpers.TimeAgo.GetTimeAgo(System.DateTime)">
+            <summary>
+            Converts a DateTime to a human-readable "time ago" string.
+            </summary>
+            <param name="date">The date to convert.</param>
+            <returns>A string representing how long ago the date was (e.g., "5 mins ago", "1 day ago").</returns>
+        </member>
+        <member name="T:BlazeJump.Helpers.TitleToSlug">
+            <summary>
+            Utility class for converting titles to URL-friendly slugs.
+            </summary>
+        </member>
+        <member name="M:BlazeJump.Helpers.TitleToSlug.ConvertTitleToSlug(System.String)">
+            <summary>
+            Converts a title string to a URL-friendly slug (lowercase, hyphenated).
+            </summary>
+            <param name="title">The title to convert.</param>
+            <returns>A slug representation of the title.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when title is null or empty.</exception>
+        </member>
+        <member name="T:ClientWebSocketWrapper">
+            <summary>
+            Wrapper implementation for ClientWebSocket to enable testability and dependency injection.
+            </summary>
+        </member>
+        <member name="M:ClientWebSocketWrapper.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ClientWebSocketWrapper"/> class.
+            </summary>
+        </member>
+        <member name="M:ClientWebSocketWrapper.ConnectAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Connects to a WebSocket server as an asynchronous operation.
+            </summary>
+            <param name="uri">The URI of the WebSocket server to connect to.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:ClientWebSocketWrapper.SendAsync(System.ArraySegment{System.Byte},System.Net.WebSockets.WebSocketMessageType,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the WebSocket connection as an asynchronous operation.
+            </summary>
+            <param name="buffer">The buffer containing the message to be sent.</param>
+            <param name="messageType">Indicates whether the application is sending a binary or text message.</param>
+            <param name="endOfMessage">Indicates whether this is the final message.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:ClientWebSocketWrapper.ReceiveAsync(System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Receives data from the WebSocket connection as an asynchronous operation.
+            </summary>
+            <param name="buffer">The buffer to receive the response.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation with the receive result.</returns>
+        </member>
+        <member name="M:ClientWebSocketWrapper.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Closes the WebSocket connection as an asynchronous operation.
+            </summary>
+            <param name="closeStatus">The WebSocket close status.</param>
+            <param name="statusDescription">A description of the close status.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:ClientWebSocketWrapper.Dispose">
+            <summary>
+            Releases all resources used by the WebSocket.
+            </summary>
+        </member>
+        <member name="P:ClientWebSocketWrapper.State">
+            <summary>
+            Gets the current state of the WebSocket connection.
+            </summary>
+        </member>
+        <member name="T:IClientWebSocketWrapper">
+            <summary>
+            Wrapper interface for ClientWebSocket to enable testability and dependency injection.
+            </summary>
+        </member>
+        <member name="M:IClientWebSocketWrapper.ConnectAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Connects to a WebSocket server as an asynchronous operation.
+            </summary>
+            <param name="uri">The URI of the WebSocket server to connect to.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:IClientWebSocketWrapper.SendAsync(System.ArraySegment{System.Byte},System.Net.WebSockets.WebSocketMessageType,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Sends data over the WebSocket connection as an asynchronous operation.
+            </summary>
+            <param name="buffer">The buffer containing the message to be sent.</param>
+            <param name="messageType">Indicates whether the application is sending a binary or text message.</param>
+            <param name="endOfMessage">Indicates whether this is the final message.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:IClientWebSocketWrapper.ReceiveAsync(System.ArraySegment{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Receives data from the WebSocket connection as an asynchronous operation.
+            </summary>
+            <param name="buffer">The buffer to receive the response.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation with the receive result.</returns>
+        </member>
+        <member name="M:IClientWebSocketWrapper.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Closes the WebSocket connection as an asynchronous operation.
+            </summary>
+            <param name="closeStatus">The WebSocket close status.</param>
+            <param name="statusDescription">A description of the close status.</param>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A task representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:IClientWebSocketWrapper.Dispose">
+            <summary>
+            Releases all resources used by the WebSocket.
+            </summary>
+        </member>
+        <member name="P:IClientWebSocketWrapper.State">
+            <summary>
+            Gets the current state of the WebSocket connection.
+            </summary>
+        </member>
+    </members>
+</doc>
