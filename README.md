@@ -216,32 +216,21 @@ using BlazeJump.Tools;
 using BlazeJump.Tools.Services.Connections;
 using BlazeJump.Tools.Models;
 using BlazeJump.Tools.Enums;
-using Microsoft.Extensions.DependencyInjection;
 
-public class Program
+public class NostrEventListener
 {
-    public static async Task Main(string[] args)
+    private readonly IRelayManager _relayManager;
+    
+    public NostrEventListener(IRelayManager relayManager)
     {
-        // Setup dependency injection
-        var services = new ServiceCollection();
-        services.ConfigureServices();
-        var serviceProvider = services.BuildServiceProvider();
-        
-        // Get the relay manager
-        var relayManager = serviceProvider.GetRequiredService<IRelayManager>();
+        _relayManager = relayManager;
         
         // Subscribe to message queue processing
-        relayManager.ProcessMessageQueue += (sender, e) =>
-        {
-            while (relayManager.ReceivedMessages.TryDequeue(out NMessage? message))
-            {
-                if (message?.Event != null)
-                {
-                    Console.WriteLine($"New Event: {message.Event.Content}");
-                }
-            }
-        };
-        
+        _relayManager.ProcessMessageQueue += OnMessageReceived;
+    }
+    
+    public async Task ConnectAndListenAsync()
+    {
         // Add and connect to relays
         var relays = new[]
         {
@@ -252,9 +241,9 @@ public class Program
         
         foreach (var relay in relays)
         {
-            if (relayManager.TryAddUri(relay))
+            if (_relayManager.TryAddUri(relay))
             {
-                await relayManager.OpenConnection(relay);
+                await _relayManager.OpenConnection(relay);
                 Console.WriteLine($"Connected to {relay}");
             }
         }
@@ -267,18 +256,409 @@ public class Program
             Since = DateTime.UtcNow.AddMinutes(-5)
         };
         
-        await relayManager.QueryRelays(
+        await _relayManager.QueryRelays(
             subscriptionId: "my-subscription",
             requestMessageType: MessageTypeEnum.REQ,
             filters: new List<Filter> { filter }
         );
         
         Console.WriteLine("Listening for events... Press Ctrl+C to exit");
-        
-        // Keep the application running
-        await Task.Delay(Timeout.Infinite);
+    }
+    
+    private void OnMessageReceived(object? sender, EventArgs e)
+    {
+        while (_relayManager.ReceivedMessages.TryDequeue(out NMessage? message))
+        {
+            if (message?.Event != null)
+            {
+                Console.WriteLine($"New Event: {message.Event.Content}");
+            }
+        }
     }
 }
+
+// Usage example:
+// var listener = serviceProvider.GetRequiredService<NostrEventListener>();
+// await listener.ConnectAndListenAsync();
+// await Task.Delay(Timeout.Infinite); // Keep running
+```
+
+## Cryptography and Key Management
+
+### Creating a Key Pair
+
+To work with Nostr events, you need a cryptographic key pair. The library provides the `ICryptoService` for key generation and cryptographic operations:
+
+```csharp
+using BlazeJump.Tools.Services.Crypto;
+using Microsoft.Extensions.DependencyInjection;
+
+// Get the crypto service from DI
+var cryptoService = serviceProvider.GetRequiredService<ICryptoService>();
+
+// Create an ethereal (temporary) key pair
+cryptoService.CreateEtherealKeyPair();
+
+// Get the public key in hex format
+var publicKeyBytes = cryptoService.EtherealPublicKey?.ToXOnlyPubKey().ToBytes();
+var publicKeyHex = Convert.ToHexString(publicKeyBytes).ToLower();
+
+Console.WriteLine($"Public Key: {publicKeyHex}");
+```
+
+### Creating and Signing Events
+
+Use the `IMessageService` to create and sign Nostr events. The service will automatically handle signing with your key pair:
+
+```csharp
+using BlazeJump.Tools.Services.Message;
+using BlazeJump.Tools.Services.Crypto;
+using BlazeJump.Tools.Enums;
+
+// Get required services
+var messageService = serviceProvider.GetRequiredService<IMessageService>();
+var cryptoService = serviceProvider.GetRequiredService<ICryptoService>();
+
+// Ensure you have a key pair
+cryptoService.CreateEtherealKeyPair();
+
+// Create a text note event
+var textEvent = messageService.CreateNEvent(
+    kind: KindEnum.TextNote,
+    message: "Hello Nostr!",
+    parentId: null,
+    rootId: null,
+    ptags: null
+);
+
+// Send the event (it will be signed automatically)
+await messageService.Send(KindEnum.TextNote, textEvent);
+
+Console.WriteLine($"Sent event with ID: {textEvent.Id}");
+```
+
+### Encrypting Event Content
+
+For encrypted direct messages (Kind 4), you can encrypt the content before sending:
+
+```csharp
+using BlazeJump.Tools.Services.Crypto;
+using BlazeJump.Tools.Services.Message;
+using BlazeJump.Tools.Enums;
+
+// Get services
+var cryptoService = serviceProvider.GetRequiredService<ICryptoService>();
+var messageService = serviceProvider.GetRequiredService<IMessageService>();
+
+// Ensure you have a key pair
+cryptoService.CreateEtherealKeyPair();
+
+// Create an encrypted direct message
+var recipientPubKey = "recipient_public_key_hex"; // The recipient's public key
+
+var encryptedMessage = messageService.CreateNEvent(
+    kind: KindEnum.EncryptedDirectMessage,
+    message: "This is a private message",
+    parentId: null,
+    rootId: null,
+    ptags: new List<string> { recipientPubKey } // Tag the recipient
+);
+
+// Send with encryption - the message content will be encrypted automatically
+await messageService.Send(
+    kind: KindEnum.EncryptedDirectMessage,
+    nEvent: encryptedMessage,
+    encryptPubKey: recipientPubKey
+);
+
+Console.WriteLine("Encrypted message sent!");
+```
+
+### Complete Example: Sending an Encrypted Message to Nostr Network
+
+Here's a complete working example that shows how to send an encrypted direct message to the Nostr network:
+
+```csharp
+using BlazeJump.Tools;
+using BlazeJump.Tools.Services.Crypto;
+using BlazeJump.Tools.Services.Message;
+using BlazeJump.Tools.Services.Connections;
+using BlazeJump.Tools.Enums;
+
+public class EncryptedMessageSender
+{
+    private readonly ICryptoService _cryptoService;
+    private readonly IMessageService _messageService;
+    private readonly IRelayManager _relayManager;
+    
+    public EncryptedMessageSender(
+        ICryptoService cryptoService,
+        IMessageService messageService,
+        IRelayManager relayManager)
+    {
+        _cryptoService = cryptoService;
+        _messageService = messageService;
+        _relayManager = relayManager;
+    }
+    
+    public async Task SendEncryptedMessageAsync(string recipientPubKeyHex, string messageContent)
+    {
+        // Step 1: Create your key pair (sender's keys)
+        _cryptoService.CreateEtherealKeyPair();
+        var yourPubKeyBytes = _cryptoService.EtherealPublicKey?.ToXOnlyPubKey().ToBytes();
+        var yourPubKeyHex = Convert.ToHexString(yourPubKeyBytes).ToLower();
+        Console.WriteLine($"Your public key: {yourPubKeyHex}");
+        
+        // Step 2: Connect to Nostr relays
+        var relays = new[]
+        {
+            "wss://relay.damus.io",
+            "wss://nos.lol",
+            "wss://relay.nostr.band"
+        };
+        
+        foreach (var relay in relays)
+        {
+            if (_relayManager.TryAddUri(relay))
+            {
+                await _relayManager.OpenConnection(relay);
+                Console.WriteLine($"Connected to {relay}");
+            }
+        }
+        
+        // Step 3: Create the encrypted direct message event
+        var dmEvent = _messageService.CreateNEvent(
+            kind: KindEnum.EncryptedDirectMessage,  // Kind 4 for encrypted DMs
+            message: messageContent,
+            parentId: null,
+            rootId: null,
+            ptags: new List<string> { recipientPubKeyHex }  // Tag recipient
+        );
+        
+        Console.WriteLine($"Created event with ID: {dmEvent.Id}");
+        Console.WriteLine($"Original message: {messageContent}");
+        
+        // Step 4: Send the message (will be encrypted automatically)
+        await _messageService.Send(
+            kind: KindEnum.EncryptedDirectMessage,
+            nEvent: dmEvent,
+            encryptPubKey: recipientPubKeyHex  // Encrypt for this recipient
+        );
+        
+        Console.WriteLine("Encrypted message sent to Nostr network!");
+        Console.WriteLine($"Message was encrypted and sent to {relays.Length} relays");
+        
+        // The message content is now encrypted in the event
+        Console.WriteLine($"Encrypted content: {dmEvent.Content}");
+    }
+}
+
+// Usage example:
+// var sender = serviceProvider.GetRequiredService<EncryptedMessageSender>();
+// await sender.SendEncryptedMessageAsync(
+//     recipientPubKeyHex: "e33fe65f1fde44c6dc17eeb38fdad0fceaf1cae8722084332ed1e32496291d42",
+//     messageContent: "Hello! This is a private encrypted message."
+// );
+```
+
+**What Happens When You Send an Encrypted Message:**
+
+1. **Key Pair Creation**: Your private/public key pair is created
+2. **Message Creation**: A NEvent is created with Kind 4 (EncryptedDirectMessage)
+3. **Encryption**: The message content is encrypted using:
+   - Your private key (sender)
+   - Recipient's public key
+   - AES-256-CBC encryption
+   - A random initialization vector (IV)
+4. **Signing**: The event is signed with your private key
+5. **Broadcasting**: The encrypted event is sent to all connected relays
+
+**The encrypted message format:**
+```json
+{
+  "id": "event_id_hash",
+  "pubkey": "your_public_key",
+  "created_at": 1699564800,
+  "kind": 4,
+  "tags": [
+    ["p", "recipient_public_key"]
+  ],
+  "content": "{\"CipherText\":\"base64_encrypted_content\",\"Iv\":\"base64_iv\"}",
+  "sig": "signature"
+}
+```
+
+**Important Notes:**
+
+- Only the recipient with the matching private key can decrypt the message
+- The content is encrypted using ECDH (Elliptic Curve Diffie-Hellman) shared secret
+- The message metadata (sender, recipient, timestamp) is visible, but content is encrypted
+- Kind 4 events are specifically for encrypted direct messages in the Nostr protocol
+
+### Manual Encryption and Decryption
+
+For more control over encryption, you can use the crypto service directly:
+
+**Encrypting Text:**
+```csharp
+// Encrypt a message
+string plainText = "Secret message";
+string recipientPubKey = "recipient_public_key_hex";
+
+var cipherResult = await cryptoService.AesEncrypt(
+    plainText: plainText,
+    theirPublicKey: recipientPubKey,
+    ivOverride: null,  // Let the library generate a random IV
+    ethereal: true     // Use the ethereal key pair
+);
+
+Console.WriteLine($"Encrypted: {cipherResult.CipherText}");
+Console.WriteLine($"IV: {cipherResult.Iv}");
+```
+
+**Decrypting Text:**
+```csharp
+// Decrypt a message
+string decrypted = await cryptoService.AesDecrypt(
+    base64CipherText: cipherResult.CipherText,
+    theirPublicKey: senderPubKey,
+    ivString: cipherResult.Iv,
+    ethereal: true
+);
+
+Console.WriteLine($"Decrypted: {decrypted}");
+```
+
+### Signing and Verifying Messages
+
+**Sign a Message:**
+```csharp
+string message = "Message to sign";
+
+// Create key pair first
+cryptoService.CreateEtherealKeyPair();
+
+// Sign the message
+string signature = cryptoService.Sign(message, ethereal: true);
+
+Console.WriteLine($"Signature: {signature}");
+```
+
+**Verify a Signature:**
+```csharp
+string signature = "signature_hex";
+string message = "original_message";
+string publicKey = "signer_public_key_hex";
+
+bool isValid = cryptoService.Verify(signature, message, publicKey);
+
+if (isValid)
+{
+    Console.WriteLine("Signature is valid!");
+}
+else
+{
+    Console.WriteLine("Invalid signature!");
+}
+```
+
+### Verifying Event Signatures
+
+Verify that a received event has a valid signature:
+
+```csharp
+var messageService = serviceProvider.GetRequiredService<IMessageService>();
+
+// Assuming you have received an NEvent
+bool isEventValid = messageService.Verify(receivedEvent);
+
+if (isEventValid)
+{
+    Console.WriteLine("Event signature is valid!");
+}
+else
+{
+    Console.WriteLine("Invalid event signature - may be tampered!");
+}
+```
+
+### Complete Example: Creating, Signing, and Sending an Event
+
+```csharp
+using BlazeJump.Tools;
+using BlazeJump.Tools.Services.Crypto;
+using BlazeJump.Tools.Services.Message;
+using BlazeJump.Tools.Services.Connections;
+using BlazeJump.Tools.Enums;
+
+public class NostrEventPublisher
+{
+    private readonly ICryptoService _cryptoService;
+    private readonly IMessageService _messageService;
+    private readonly IRelayManager _relayManager;
+    
+    public NostrEventPublisher(
+        ICryptoService cryptoService,
+        IMessageService messageService,
+        IRelayManager relayManager)
+    {
+        _cryptoService = cryptoService;
+        _messageService = messageService;
+        _relayManager = relayManager;
+    }
+    
+    public async Task PublishEventsAsync()
+    {
+        // Step 1: Create a key pair
+        _cryptoService.CreateEtherealKeyPair();
+        var pubKeyBytes = _cryptoService.EtherealPublicKey?.ToXOnlyPubKey().ToBytes();
+        var pubKeyHex = Convert.ToHexString(pubKeyBytes).ToLower();
+        Console.WriteLine($"Your public key: {pubKeyHex}");
+        
+        // Step 2: Connect to relays
+        _relayManager.TryAddUri("wss://relay.damus.io");
+        await _relayManager.OpenConnection("wss://relay.damus.io");
+        
+        // Step 3: Create and send a public text note
+        var textNote = _messageService.CreateNEvent(
+            kind: KindEnum.TextNote,
+            message: "Hello from BlazeJump.Tools!",
+            parentId: null,
+            rootId: null,
+            ptags: null
+        );
+        
+        await _messageService.Send(KindEnum.TextNote, textNote);
+        Console.WriteLine($"Public note sent! Event ID: {textNote.Id}");
+        
+        // Step 4: Create and send an encrypted direct message
+        string recipientPubKey = "recipient_hex_public_key"; // Replace with actual key
+        
+        var dmEvent = _messageService.CreateNEvent(
+            kind: KindEnum.EncryptedDirectMessage,
+            message: "This is a private message!",
+            parentId: null,
+            rootId: null,
+            ptags: new List<string> { recipientPubKey }
+        );
+        
+        await _messageService.Send(
+            kind: KindEnum.EncryptedDirectMessage,
+            nEvent: dmEvent,
+            encryptPubKey: recipientPubKey
+        );
+        
+        Console.WriteLine($"Encrypted DM sent! Event ID: {dmEvent.Id}");
+        
+        // Step 5: Verify an event signature
+        bool isValid = _messageService.Verify(textNote);
+        Console.WriteLine($"Event signature valid: {isValid}");
+    }
+}
+
+// Usage example:
+// var publisher = serviceProvider.GetRequiredService<NostrEventPublisher>();
+// await publisher.PublishEventsAsync();
 ```
 
 ## Managing Connections
